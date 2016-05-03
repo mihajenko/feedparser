@@ -1,5 +1,6 @@
 feedparser - Parse Atom and RSS feeds in Python.
 
+| Copyright 2016 Miha Jenko <mjenko@t-2.net>
 | Copyright 2010-2015 Kurt McKee <contactme@kurtmckee.org>
 | Copyright 2002-2008 Mark Pilgrim
 
