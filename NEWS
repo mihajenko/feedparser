@@ -1,3 +1,6 @@
+5.2.2 - April 26, 2016
+    * Add timeout, remove unneeded code for newsfeed use
+
 5.2.1 - July 23, 2015
     * Fix #22 (pip package keeps upgrading all the time)
 
