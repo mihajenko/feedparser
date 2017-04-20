@@ -31,6 +31,8 @@ from __future__ import absolute_import, unicode_literals
 import copy
 import re
 
+from struct import pack
+
 from xml.sax.saxutils import escape as _xmlescape
 
 # base64 support for Atom feeds that contain embedded binary data
@@ -57,7 +59,15 @@ bytes_ = type(b'')
 try:
     chr = unichr
 except NameError:
-    pass
+    unichar = chr
+else:
+    # narrow build workaround
+    def unichar(i):
+        try:
+            return chr(i)
+        except ValueError:
+            return pack('i', i).decode('utf-32')
+
 
 class _FeedParserMixin(
         _base.Namespace,
@@ -333,7 +343,7 @@ class _FeedParserMixin(
                 c = int(ref[1:], 16)
             else:
                 c = int(ref)
-            text = chr(c).encode('utf-8')
+            text = unichar(c).encode('utf-8')
         self.elementstack[-1][2].append(text)
 
     def handle_entityref(self, ref):
@@ -352,7 +362,7 @@ class _FeedParserMixin(
             except KeyError:
                 text = '&%s;' % ref
             else:
-                text = chr(name2codepoint[ref]).encode('utf-8')
+                text = unichar(name2codepoint[ref]).encode('utf-8')
         self.elementstack[-1][2].append(text)
 
     def handle_data(self, text, escape=1):
