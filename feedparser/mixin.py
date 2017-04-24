@@ -61,12 +61,16 @@ try:
 except NameError:
     unichar = chr
 else:
+    surrogate_pair = '\\U{0:08x}'.format
+
     # narrow build workaround
     def unichar(i):
+        global surrogate_pair
+
         try:
             return chr(i)
         except ValueError:
-            return pack('i', i).decode('utf-32')
+            return surrogate_pair(i).decode('unicode-escape')
 
 
 class _FeedParserMixin(
